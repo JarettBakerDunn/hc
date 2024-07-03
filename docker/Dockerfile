@@ -42,4 +42,7 @@ ENV PATH="/home/hc_user/gmt-4.5.18/bin:${PATH}"
 ENV PATH="/home/hc_user/gmt-4.5.18/src:${PATH}"
 ENV PATH="/home/hc_user/hc/bin:${PATH}"
 
+#-I/home/hc_user/gmt-4.5.18/src
 RUN cd hc; make all;
+
+RUN cd hc; chmod +x plot_geoid;
