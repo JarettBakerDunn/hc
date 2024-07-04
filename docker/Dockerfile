@@ -35,14 +35,14 @@ RUN curl -L -O "https://www.gfd-dennou.org/arch/ucar/netcdf/old/netcdf-3.5.0.tar
 RUN curl -L -O "http://www-udc.ig.utexas.edu/external/becker/software/grd2vtk.tgz"; tar -xvf grd2vtk.tgz; cd grd2vtk; make;
 
 ENV PATH="/home/hc_user/grd2vtk:${PATH}"
-
-RUN tar -xvf gmt-4.5.18-src.tar.bz2; cd gmt-4.5.18; ./configure; make; make install-gmt; 
+#The following line installs GMT and also installs the gshhg required for plotting coastlines: https://www.soest.hawaii.edu/gmt/gmt/html/man/pscoast.html#GSHHS%20INFORMATION
+RUN tar -xvf gmt-4.5.18-src.tar.bz2; cd gmt-4.5.18; ./configure; make; make install-gmt; cd share; mkdir coast; cd coast; curl -L -O "https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-gmt-2.3.7.tar.gz"; tar -xvf gshhg-gmt-2.3.7.tar.gz; mv -v gshhg-gmt-2.3.7/* .
 
 ENV PATH="/home/hc_user/gmt-4.5.18/bin:${PATH}"
 ENV PATH="/home/hc_user/gmt-4.5.18/src:${PATH}"
 ENV PATH="/home/hc_user/hc/bin:${PATH}"
 
 #-I/home/hc_user/gmt-4.5.18/src
-RUN cd hc; make all;
+RUN cd hc; make all; mv example_data/dens.sh.dat . ;
 
 RUN cd hc; chmod +x plot_geoid;
